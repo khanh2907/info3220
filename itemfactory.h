@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "ball.h"
+#include "brick.h"
 #include "config.h"
 
 class ItemFactory{

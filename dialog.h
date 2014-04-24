@@ -6,6 +6,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include "config.h"
+#include "brick.h"
 #include "ball.h"
 #include "itemfactory.h"
 

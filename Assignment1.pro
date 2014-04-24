@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         dialog.cpp\
         config.cpp \
     ball.cpp \
-    itemfactory.cpp
+    itemfactory.cpp \
+    brick.cpp
 
 HEADERS  += dialog.h\
             config.h \
     ball.h \
-    itemfactory.h
+    itemfactory.h \
+    brick.h
 
 FORMS    += dialog.ui
 

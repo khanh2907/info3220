@@ -13,7 +13,10 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 
     Ball *ball = dynamic_cast<Ball*>(ItemFactory::make("ball", config));
 
+    Brick *brick =  dynamic_cast<Brick*>(ItemFactory::make("brick", config));
+
     scene->addItem(ball);
+    scene->addItem(brick);
 }
 
 void Dialog::nextFrame(){
