@@ -29,12 +29,12 @@ void Ball::advance(int phase){
 
     if(futureYPos <= 0){
         yVelocity *= -1;
-        setPos(futureXPos, yVelocity + 1);
+        setPos(futureXPos, 0);
         colour = "#F0AFAF";
     }
     else if (futureXPos <= 0){
         xVelocity *= -1;
-        setPos(xVelocity + 1, futureYPos);
+        setPos(0, futureYPos);
         colour = "#E5C1F5";
     }
     else if(futureYPos >= boxHeight - diameter){
