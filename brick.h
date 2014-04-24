@@ -12,7 +12,11 @@
 
 class Brick : public QGraphicsItem{
 public:
-    Brick(int xCoordinate, int yCoordinate, int width, int height) : position(new QPoint(xCoordinate, yCoordinate)), m_width(width), m_height(height)
+    Brick(int xCoordinate, int yCoordinate, int width, int height, const char * colour) :
+        position(new QPoint(xCoordinate, yCoordinate)),
+        m_width(width),
+        m_height(height),
+        m_colour(QColor(colour))
     {
         setPos(mapToScene(*position));
     };
@@ -24,12 +28,13 @@ public:
 //    void advance(int phase);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
-    QRectF boundingRect() const { return QRectF(position->x(), position->y(), m_width, m_height); }
+    QRectF boundingRect() const { return QRectF(0, 0, m_width, m_height); }
 
 private:
     QPoint *position;
     int m_width;
     int m_height;
+    QColor m_colour;
 };
 
 #endif // BRICK_H

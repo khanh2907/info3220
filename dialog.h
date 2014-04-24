@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <string>
 #include "config.h"
 #include "brick.h"
 #include "ball.h"

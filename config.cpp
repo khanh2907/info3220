@@ -9,39 +9,54 @@ void Config::Config::readFile(){
         exit(0);
     }
     if (file.is_open()){
+
+        std::string currentSet;
+        std::string key, value;
+
         while (std::getline(file, buffer)){
-            std::stringstream line(buffer);
-            //reading the number input from .config
-            while(std::getline(line, buffer2, ':')){
-                buffer2 = removeSpace(buffer2);
-                buffer = removeSpace(buffer);
-                if(buffer2 == "height"){
-                    std::string str = buffer.substr(7,buffer.length());
-                    height = atoi(str.c_str());
+            // ignore blank lines
+            if (!buffer.length()) continue;
+
+            int indexOfColon = buffer.find(':');
+
+            if (buffer[0] == '[' && buffer[buffer.length()-1] == ']') {
+                currentSet = buffer.substr(1, buffer.length()-2);
+                transform(currentSet.begin(), currentSet.end(), currentSet.begin(), ::tolower);
+            }
+
+            else {
+
+                key = removeSpace(buffer.substr(0, indexOfColon));
+                value = removeSpace(buffer.substr(indexOfColon + 1));
+
+                if (currentSet == "box") {
+                    box[key] = value;
                 }
-                else if(buffer2 == "width"){
-                    std::string str = buffer.substr(6,buffer.length());
-                    width = atoi(str.c_str());
+
+                else if (currentSet == "ball") {
+                    ball[key] = value;
                 }
-                else if(buffer2 == "radius"){
-                    std::string str = buffer.substr(7,buffer.length());
-                    radius = atoi(str.c_str());
-                }
-                else if(buffer2 == "xCoordinate"){
-                    std::string str = buffer.substr(12,buffer.length());
-                    xCoordinate = atoi(str.c_str());
-                }
-                else if(buffer2 == "yCoordinate"){
-                    std::string str = buffer.substr(12,buffer.length());
-                    yCoordinate = atoi(str.c_str());
-                }
-                else if(buffer2 == "xVelocity"){
-                    std::string str = buffer.substr(10,buffer.length());
-                    xVelocity = atof(str.c_str());
-                }
-                else if(buffer2 == "yVelocity"){
-                    std::string str = buffer.substr(10,buffer.length());
-                    yVelocity = atof(str.c_str());
+
+                else if (currentSet == "bricks") {
+                    std::istringstream ss(value);
+                    std::string brickVal;
+                    std::map<std::string, std::string> thisBrick;
+
+                    int valCount = 0;
+                    while(std::getline(ss, brickVal, ',')) {
+                        std::string brickKey;
+                        if (0 == valCount) brickKey = "xCoordinate";
+                        else if (1 == valCount) brickKey = "yCoordinate";
+                        else if (2 == valCount) brickKey = "width";
+                        else if (3 == valCount) brickKey = "height";
+                        else if (4 == valCount) brickKey = "colour";
+                        // todo: check for missing values, optional ones like color, malformed ones
+                        if (valCount < 5){
+                            thisBrick[brickKey] = brickVal;
+                        }
+                        valCount++;
+                    }
+                    bricks.push_back(thisBrick);
                 }
             }
         }

@@ -8,7 +8,7 @@ QGraphicsItem* ItemFactory::make(std::string item, Config::Config *config){
         return ball;
     }
     else if (item == "brick"){
-        Brick *brick = new Brick(100, 20, 100, 25);
+        Brick *brick = new Brick(1, 20, 100, 25);
         return brick;
     }
     return NULL;

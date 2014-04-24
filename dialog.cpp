@@ -13,10 +13,23 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 
     Ball *ball = dynamic_cast<Ball*>(ItemFactory::make("ball", config));
 
-    Brick *brick =  dynamic_cast<Brick*>(ItemFactory::make("brick", config));
+    std::vector< std::map<std::string, std::string> > bricks = *(config->getBricks());
+
+    for (auto it = bricks.begin(); it != bricks.end(); ++it) {
+        auto thisBrick = *(it);
+        int xCoordinate = atoi(thisBrick["xCoordinate"].c_str());
+        int yCoordinate = atoi(thisBrick["yCoordinate"].c_str());
+        int width = atoi(thisBrick["width"].c_str());
+        int height = atoi(thisBrick["height"].c_str());
+        const char * colour = thisBrick["colour"].c_str();
+
+        Brick *brick = new Brick(xCoordinate, yCoordinate, width, height, colour);
+        scene->addItem(brick);
+    }
+
 
     scene->addItem(ball);
-    scene->addItem(brick);
+
 }
 
 void Dialog::nextFrame(){
