@@ -6,10 +6,11 @@ class InvincibleBrick : public BrickDecorator
 {
 public:
 
-    InvincibleBrick(Brick * innerBrick): BrickDecorator(innerBrick) {}
+    InvincibleBrick(Brick * other): BrickDecorator(other) {}
 
-    void decorate() {
-        std::cout << "decorate" << std::endl;
+    int decrementLife() {
+        m_life = 99999;
+        return m_life;
     }
 };
 

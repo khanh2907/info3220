@@ -42,7 +42,7 @@ public:
     int getLife() { return m_life;}
     QColor getColour() { return m_colour;}
 
-    int decrementLife() {
+    virtual int decrementLife() {
         m_life--;
         return m_life;
     }

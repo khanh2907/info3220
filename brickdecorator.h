@@ -10,21 +10,21 @@ public:
 
     }
 
-    BrickDecorator(Brick * innerBrick){
-        position = innerBrick->getPosition();
-        m_width = innerBrick->getWidth();
-        m_height = innerBrick->getHeight();
-        m_life = 999999;
-        m_colour = innerBrick->getColour();
+    BrickDecorator(Brick * other){
+        qreal xCoordinate = other->pos().x();
+        qreal yCoordinate = other->pos().y();
+        position = new QPoint(xCoordinate, yCoordinate);
+        m_width = other->getWidth();
+        m_height = other->getHeight();
+        m_life = other->getLife();
+        m_colour = other->getColour();
         setPos(mapToScene(*position));
+        delete other;
     }
 
-    ~BrickDecorator() {
-        delete position;
+    virtual void decorate(){
+        std::cout << "Decorate not implemented!" << std::endl;
     }
-
-    virtual void decorate() = 0;
-
 };
 
 #endif // BRICKDECORATOR_H

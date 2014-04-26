@@ -28,10 +28,9 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
         scene->addItem(brick);
     }
 
-//    Brick *brick = new Brick(300, 500, 70, 20, 5, "#3366FF");
-//    Brick *invincibleBrick = new InvincibleBrick(brick);
+    InvincibleBrick *invincibleBrick = new InvincibleBrick(new Brick(300, 500, 70, 20, 5, "#FFFFFF"));
 
-//    scene->addItem(brick);
+    scene->addItem(invincibleBrick);
 
 
     scene->addItem(ball);
@@ -39,9 +38,6 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 }
 
 void Dialog::nextFrame(){
-
-
-
     update();
 }
 
