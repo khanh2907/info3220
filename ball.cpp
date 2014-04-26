@@ -51,19 +51,20 @@ void Ball::advance(int phase){
     }
     else{
 
-        QList<QGraphicsItem *> bricks = scene()->items();
+        QList<QGraphicsItem *> sceneItems = scene()->items();
 
         qreal futureBallTop = futureYPos;
         qreal futureBallBottom = futureYPos + diameter;
         qreal futureBallLeft = futureXPos;
         qreal futureBallRight = futureXPos + diameter;
 
-        foreach(QGraphicsItem * brick, bricks) {
+        for( int i=0; i<sceneItems.count(); ++i ) {
             // make sure that it's not the ball
-            if (brick == this)
+            QGraphicsItem * item = sceneItems[i];
+            if (item == this)
                 continue;
 
-            Brick * thisBrick = dynamic_cast<Brick *>(brick);
+            Brick * thisBrick = dynamic_cast<Brick *>(item);
 
             // do collision here because I hate qt libs
            qreal brickTop = thisBrick->pos().y();
@@ -95,6 +96,8 @@ void Ball::advance(int phase){
                // reduce brick life by one and get rid of it if it's 0
                if (thisBrick->decrementLife() <= 0) {
                    scene()->removeItem(thisBrick);
+                   sceneItems.removeAt(i);
+                   delete thisBrick;
                }
            }
         }
@@ -102,9 +105,6 @@ void Ball::advance(int phase){
         setPos(futureXPos, futureYPos);
 
     }
-
-
-
 
 }
 
