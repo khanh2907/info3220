@@ -61,6 +61,10 @@ void Ball::advance(int phase){
         for( int i=0; i<sceneItems.count(); ++i ) {
             // make sure that it's not the ball
             QGraphicsItem * item = sceneItems[i];
+
+            if (item == NULL)
+                continue;
+
             if (item == this)
                 continue;
 
@@ -96,7 +100,6 @@ void Ball::advance(int phase){
                // reduce brick life by one and get rid of it if it's 0
                if (thisBrick->decrementLife() <= 0) {
                    scene()->removeItem(thisBrick);
-                   sceneItems.removeAt(i);
                    delete thisBrick;
                }
            }

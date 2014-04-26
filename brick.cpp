@@ -36,6 +36,8 @@ void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
     painter->setBrush(brush);
     painter->drawRect(rec);
 
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
 QPoint * Brick::getPosition() { return position;}
@@ -46,5 +48,6 @@ QColor Brick::getColour() { return m_colour;}
 
 int Brick::decrementLife() {
     m_life--;
+    prepareGeometryChange();
     return m_life;
 }

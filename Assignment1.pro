@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     itemfactory.cpp \
     brick.cpp \
     brickdecorator.cpp \
-    invinciblebrick.cpp
+    invinciblebrick.cpp \
+    slidingbrick.cpp
 
 HEADERS  += dialog.h\
             config.h \
@@ -27,7 +28,8 @@ HEADERS  += dialog.h\
     itemfactory.h \
     brick.h \
     brickdecorator.h \
-    invinciblebrick.h
+    invinciblebrick.h \
+    slidingbrick.h
 
 FORMS    += dialog.ui
 
