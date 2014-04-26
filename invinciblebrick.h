@@ -8,10 +8,7 @@ public:
 
     InvincibleBrick(Brick * other): BrickDecorator(other) {}
 
-    int decrementLife() {
-        m_life = 99999;
-        return m_life;
-    }
+    int decrementLife();
 };
 
 #endif // INVINCIBLEBRICK_H

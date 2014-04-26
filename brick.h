@@ -14,38 +14,24 @@
 class Brick : public QGraphicsItem{
 public:
 
-    Brick() {
+    Brick();
 
-    }
+    Brick(int xCoordinate, int yCoordinate, int width, int height, int life, const char * colour);
 
-    Brick(int xCoordinate, int yCoordinate, int width, int height, int life, const char * colour) :
-        position(new QPoint(xCoordinate, yCoordinate)),
-        m_width(width),
-        m_height(height),
-        m_life(life),
-        m_colour(QColor(colour))
-    {
-        setPos(mapToScene(*position));
-    }
+    virtual ~Brick();
 
-    virtual ~Brick(){
-        delete position;
-    }
+    virtual void advance(int phase);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    QRectF boundingRect() const;
 
-    QRectF boundingRect() const { return QRectF(0, 0, m_width, m_height); }
+    QPoint * getPosition();
+    int getWidth();
+    int getHeight();
+    int getLife();
+    QColor getColour();
 
-    QPoint * getPosition() { return position;}
-    int getWidth() { return m_width;}
-    int getHeight() { return m_height;}
-    int getLife() { return m_life;}
-    QColor getColour() { return m_colour;}
-
-    virtual int decrementLife() {
-        m_life--;
-        return m_life;
-    }
+    virtual int decrementLife();
 
 protected:
     QPoint *position;

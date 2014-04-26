@@ -1,17 +1,50 @@
 #include "brick.h"
 
-void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
-    QRectF rec = boundingRect();
-    QBrush brush("#84D9CF");
+Brick::Brick() {
 
-    if(m_colour != "#84D9CF"){
-        brush.setColor(m_colour);
+}
+
+Brick::Brick(int xCoordinate, int yCoordinate, int width, int height, int life, const char * colour) :
+    position(new QPoint(xCoordinate, yCoordinate)),
+    m_width(width),
+    m_height(height),
+    m_life(life),
+    m_colour(QColor(colour))
+{
+    setPos(mapToScene(*position));
+}
+
+Brick::~Brick() {
+    delete position;
+}
+
+QRectF Brick::boundingRect() const{
+    return QRectF(0, 0, m_width, m_height);
+}
+
+void Brick::advance(int phase) {
+    if (phase == 0){
+      return;
     }
+}
+
+void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
+    QRectF rec = boundingRect();
+    QBrush brush("#FFFFFF");
+    brush.setColor(m_colour);
 
     painter->setBrush(brush);
     painter->drawRect(rec);
 
-//    setFlag(QGraphicsItem::ItemIsSelectable, true);
-//    setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
+QPoint * Brick::getPosition() { return position;}
+int Brick::getWidth() { return m_width;}
+int Brick::getHeight() { return m_height;}
+int Brick::getLife() { return m_life;}
+QColor Brick::getColour() { return m_colour;}
+
+int Brick::decrementLife() {
+    m_life--;
+    return m_life;
+}
