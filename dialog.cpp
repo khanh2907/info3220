@@ -21,11 +21,17 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
         int yCoordinate = atoi(thisBrick["yCoordinate"].c_str());
         int width = atoi(thisBrick["width"].c_str());
         int height = atoi(thisBrick["height"].c_str());
+        int life = atoi(thisBrick["life"].c_str());
         const char * colour = thisBrick["colour"].c_str();
 
-        Brick *brick = new Brick(xCoordinate, yCoordinate, width, height, colour);
+        Brick *brick = new Brick(xCoordinate, yCoordinate, width, height, life, colour);
         scene->addItem(brick);
     }
+
+//    Brick *brick = new Brick(300, 500, 70, 20, 5, "#3366FF");
+//    Brick *invincibleBrick = new InvincibleBrick(brick);
+
+//    scene->addItem(brick);
 
 
     scene->addItem(ball);
@@ -33,6 +39,9 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 }
 
 void Dialog::nextFrame(){
+
+
+
     update();
 }
 

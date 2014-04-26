@@ -1,0 +1,2 @@
+#include "brickdecorator.h"
+

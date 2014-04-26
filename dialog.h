@@ -8,6 +8,7 @@
 #include <string>
 #include "config.h"
 #include "brick.h"
+#include "invinciblebrick.h"
 #include "ball.h"
 #include "itemfactory.h"
 

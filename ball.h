@@ -37,7 +37,7 @@ public:
     void playSound();
 
     QPoint * getPosition() { return position; }
-    int getRadius() { return radius; }
+    int getRadius() const { return radius; }
     float getxVelocity() { return xVelocity; }
     float getyVelocity() { return yVelocity; }
     int getBoxWidth() { return boxWidth; }

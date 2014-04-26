@@ -15,7 +15,7 @@ namespace Config{
 
     class Config{
     public:
-        Config() : xCoordinate(0), yCoordinate(0), radius(10), xVelocity(1), yVelocity(1), height(400), width(400){
+        Config(){
             readFile();
         }
 
@@ -33,18 +33,9 @@ namespace Config{
         std::vector< std::map<std::string, std::string> > * getBricks() { return &bricks; }
 
     private:
-        int xCoordinate;
-        int yCoordinate;
-        int radius;
-        float xVelocity;
-        float yVelocity;
-        int height;
-        int width;
-
         std::map<std::string, std::string> box;
         std::map<std::string, std::string> ball;
         std::vector< std::map<std::string, std::string> > bricks;
-
     };
 }
 #endif // CONFIG_H

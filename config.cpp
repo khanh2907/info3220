@@ -49,9 +49,10 @@ void Config::Config::readFile(){
                         else if (1 == valCount) brickKey = "yCoordinate";
                         else if (2 == valCount) brickKey = "width";
                         else if (3 == valCount) brickKey = "height";
-                        else if (4 == valCount) brickKey = "colour";
+                        else if (4 == valCount) brickKey = "life";
+                        else if (5 == valCount) brickKey = "colour";
                         // todo: check for missing values, optional ones like color, malformed ones
-                        if (valCount < 5){
+                        if (valCount < 6){
                             thisBrick[brickKey] = brickVal;
                         }
                         valCount++;
@@ -62,7 +63,7 @@ void Config::Config::readFile(){
         }
         file.close();
     }
-    validate();
+//    validate();
 }
 
 std::string Config::Config::removeSpace(std::string s){
@@ -75,19 +76,19 @@ std::string Config::Config::removeSpace(std::string s){
     return newStr;
 }
 
-void Config::Config::validate(){
-    if(width < 0  ||
-       height < 0 ||
-       radius < 0 ||
-       xCoordinate < 0 ||
-       yCoordinate < 0){
-        std::cout<<"Cannot have negative width, height, radius or xy coordinates"<<std::endl;
-        exit(0);
-    }
+//void Config::Config::validate(){
+//    if(width < 0  ||
+//       height < 0 ||
+//       radius < 0 ||
+//       xCoordinate < 0 ||
+//       yCoordinate < 0){
+//        std::cout<<"Cannot have negative width, height, radius or xy coordinates"<<std::endl;
+//        exit(0);
+//    }
 
-    if(height < yCoordinate + 2*radius ||
-       width < xCoordinate + 2*radius){
-        std::cout<<"The ball doesn't fit within the box dimensons"<<std::endl;
-        exit(0);
-    }
-}
+//    if(height < yCoordinate + 2*radius ||
+//       width < xCoordinate + 2*radius){
+//        std::cout<<"The ball doesn't fit within the box dimensons"<<std::endl;
+//        exit(0);
+//    }
+//}

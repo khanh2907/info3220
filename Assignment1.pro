@@ -17,13 +17,17 @@ SOURCES += main.cpp\
         config.cpp \
     ball.cpp \
     itemfactory.cpp \
-    brick.cpp
+    brick.cpp \
+    brickdecorator.cpp \
+    invinciblebrick.cpp
 
 HEADERS  += dialog.h\
             config.h \
     ball.h \
     itemfactory.h \
-    brick.h
+    brick.h \
+    brickdecorator.h \
+    invinciblebrick.h
 
 FORMS    += dialog.ui
 
