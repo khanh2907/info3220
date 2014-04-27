@@ -32,8 +32,11 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 
     scene->addItem(invincibleBrick);
 
-    SlidingBrick *slidingBrick = new SlidingBrick(new InvincibleBrick(new Brick(0, 0, 70, 20, 1, "#02bbf8")));
-    scene->addItem(slidingBrick);
+    SlidingBrick *slidingInvincibleBrick = new SlidingBrick(new InvincibleBrick(new Brick(0, 0, 70, 20, 1, "#02bbf8")));
+    scene->addItem(slidingInvincibleBrick);
+
+    Brick *invincibleSlidingBrick = new Brick(0, 140, 70, 20, 10, "#8891af");
+    scene->addItem(invincibleSlidingBrick);
 
     scene->addItem(ball);
 

@@ -35,26 +35,24 @@ void Ball::advance(int phase){
 
     if(futureYPos <= 0){
         yVelocity *= -1;
-        setPos(futureXPos, 0);
+        futureYPos = 0;
         colour = "#F0AFAF";
     }
     else if (futureXPos <= 0){
         xVelocity *= -1;
-        setPos(0, futureYPos);
+        futureXPos = 0;
         colour = "#E5C1F5";
     }
     else if(futureYPos >= boxHeight - diameter){
         yVelocity *= -1;
-        setPos(futureXPos, boxHeight - diameter);
+        futureYPos = boxHeight - diameter;
         colour = "#FFFFAB";
     }
     else if (futureXPos >= boxWidth - diameter){
         xVelocity*= -1;
-        setPos(boxWidth - diameter, futureYPos);
+        futureXPos = boxWidth - diameter;
         colour = "#99BDF7";
     }
-    else{
-
         QList<QGraphicsItem *> sceneItems = scene()->items();
 
         qreal futureBallTop = futureYPos;
@@ -105,7 +103,7 @@ void Ball::advance(int phase){
 
         setPos(futureXPos, futureYPos);
 
-    }
+
 
 }
 
