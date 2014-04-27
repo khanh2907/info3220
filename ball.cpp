@@ -23,6 +23,10 @@ void Ball::advance(int phase){
       return;
     }
 
+    if (this == NULL) {
+        return;
+    }
+
     int currentXPos = this->pos().x();
     int currentYPos = this->pos().y();
     int futureXPos = currentXPos + xVelocity;
@@ -60,15 +64,11 @@ void Ball::advance(int phase){
 
         for( int i=0; i<sceneItems.count(); ++i ) {
             // make sure that it's not the ball
-            QGraphicsItem * item = sceneItems[i];
 
-            if (item == NULL)
+            if (sceneItems[i] == this)
                 continue;
 
-            if (item == this)
-                continue;
-
-            Brick * thisBrick = dynamic_cast<Brick *>(item);
+            Brick * thisBrick = dynamic_cast<Brick *>(sceneItems[i]);
 
             // do collision here because I hate qt libs
            qreal brickTop = thisBrick->pos().y();
@@ -97,11 +97,9 @@ void Ball::advance(int phase){
                    futureYPos = brickBottom;
                }
 
-               // reduce brick life by one and get rid of it if it's 0
-               if (thisBrick->decrementLife() <= 0) {
-                   scene()->removeItem(thisBrick);
-                   delete thisBrick;
-               }
+               // reduce brick life by one
+               thisBrick->decrementLife();
+
            }
         }
 

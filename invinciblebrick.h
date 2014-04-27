@@ -6,9 +6,9 @@ class InvincibleBrick : public BrickDecorator
 {
 public:
 
-    InvincibleBrick(Brick * other): BrickDecorator(other) {}
-
-    int decrementLife();
+    InvincibleBrick(Brick * other): BrickDecorator(other) {
+        m_life = 999999;
+    }
 };
 
 #endif // INVINCIBLEBRICK_H

@@ -11,7 +11,7 @@
 #include "config.h"
 #include "ball.h"
 
-class Brick : public QGraphicsItem{
+class Brick : public QObject, public QGraphicsItem{
 public:
 
     Brick();

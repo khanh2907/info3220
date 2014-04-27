@@ -26,6 +26,11 @@ void Brick::advance(int phase) {
     if (phase == 0){
       return;
     }
+
+    if (m_life <= 0) {
+        scene()->removeItem(this);
+        this->deleteLater();
+    }
 }
 
 void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
