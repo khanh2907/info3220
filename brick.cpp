@@ -9,7 +9,8 @@ Brick::Brick(int xCoordinate, int yCoordinate, int width, int height, int life, 
     m_width(width),
     m_height(height),
     m_life(life),
-    m_colour(QColor(colour))
+    m_colour(QColor(colour)),
+    m_xVelocity(0)
 {
     setPos(mapToScene(*position));
 }
@@ -48,6 +49,7 @@ int Brick::getWidth() { return m_width;}
 int Brick::getHeight() { return m_height;}
 int Brick::getLife() { return m_life;}
 QColor Brick::getColour() { return m_colour;}
+int Brick::getXVelocity() { return m_xVelocity; }
 
 int Brick::decrementLife() {
     m_life--;

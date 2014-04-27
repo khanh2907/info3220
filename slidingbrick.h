@@ -5,12 +5,9 @@
 class SlidingBrick : public BrickDecorator
 {
 public:
-    SlidingBrick(Brick * other): BrickDecorator(other) {}
-
-    void advance(int phase);
-
-private:
-    int m_xVelocity = 2;
+    SlidingBrick(Brick * other): BrickDecorator(other) {
+        m_xVelocity = 2;
+    }
 };
 
 #endif // SLIDINGBRICK_H

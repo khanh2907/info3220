@@ -9,6 +9,8 @@ public:
     BrickDecorator() : Brick() {}
 
     BrickDecorator(Brick * other);
+
+    virtual void advance(int phase);
 };
 
 #endif // BRICKDECORATOR_H

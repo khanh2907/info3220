@@ -30,6 +30,7 @@ public:
     int getHeight();
     int getLife();
     QColor getColour();
+    int getXVelocity();
 
     virtual int decrementLife();
 
@@ -39,6 +40,7 @@ protected:
     int m_height;
     int m_life;
     QColor m_colour;
+    int m_xVelocity;
 };
 
 #endif // BRICK_H
