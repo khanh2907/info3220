@@ -30,6 +30,7 @@ void Brick::advance(int phase) {
     if (m_life <= 0) {
         scene()->removeItem(this);
         this->deleteLater();
+        return;
     }
 }
 
@@ -40,9 +41,6 @@ void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 
     painter->setBrush(brush);
     painter->drawRect(rec);
-
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 
 QPoint * Brick::getPosition() { return position;}

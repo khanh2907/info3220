@@ -17,6 +17,7 @@ public:
          xVelocity(xVelocity), yVelocity(yVelocity), boxWidth(config->getWidth()),
          boxHeight(config->getHeight()), colour(colour){
          setPos(mapToScene(*position));
+         setData(1, "Ball");
     }
 
     virtual ~Ball(){

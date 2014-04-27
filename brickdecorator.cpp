@@ -9,5 +9,5 @@ BrickDecorator::BrickDecorator(Brick * other){
     m_life = other->getLife();
     m_colour = other->getColour();
     setPos(mapToScene(*position));
-//    delete other;
+    delete other;
 }
