@@ -28,7 +28,33 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
 
         // check here if it's going to overlap with any other bricks before creating it
 
+        QList<QGraphicsItem *> currentScene = scene->items();
 
+        bool overlayValid = true;
+
+        for (int i = 0; i < currentScene.count(); i++) {
+            if (currentScene[i]->data(1) == "Ball")
+                continue;
+
+            Brick * otherBrick = dynamic_cast<Brick*>(currentScene[i]);
+
+            qreal otherBrickLeft = otherBrick->pos().x();
+            qreal otherBrickRight = otherBrick->pos().x() + otherBrick->getWidth();
+            qreal otherBrickTop = otherBrick->pos().y();
+            qreal otherBrickBottom = otherBrick->pos().y() + otherBrick->getHeight();
+
+            if ((xCoordinate >= otherBrickLeft && xCoordinate <= otherBrickRight) ||
+                    (xCoordinate + width >= otherBrickLeft && xCoordinate + width <= otherBrickRight)) {
+                if ((yCoordinate >= otherBrickTop && yCoordinate <= otherBrickBottom) ||
+                        (yCoordinate + height >= otherBrickTop && yCoordinate + height <= otherBrickBottom)) {
+                    overlayValid = false;
+                }
+            }
+
+        }
+
+        if (!overlayValid)
+            continue;
 
         Brick *brick = new Brick(xCoordinate, yCoordinate, width, height, life, colour);
 

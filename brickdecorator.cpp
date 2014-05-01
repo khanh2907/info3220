@@ -22,7 +22,7 @@ void BrickDecorator::advance(int phase) {
         scene()->removeItem(this);
         this->deleteLater();
     }
-    else {
+    else if (m_xVelocity != 0){
         int futureXPos =pos().x() + m_xVelocity;
 
         if (futureXPos <= 0) {
