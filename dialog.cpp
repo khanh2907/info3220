@@ -12,7 +12,9 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
     scene->setSceneRect(0, 0, config->getWidth(), config->getHeight());
 
     Ball *ball = dynamic_cast<Ball*>(ItemFactory::make("ball", config));
+    scene->addItem(ball);
 
+    // brick layer with TAFE diploma
     std::vector< std::map<std::string, std::string> > bricks = *(config->getBricks());
 
     for (auto it = bricks.begin(); it != bricks.end(); ++it) {
@@ -24,21 +26,38 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
         int life = atoi(thisBrick["life"].c_str());
         const char * colour = thisBrick["colour"].c_str();
 
+        // check here if it's going to overlap with any other bricks before creating it
+
+
+
         Brick *brick = new Brick(xCoordinate, yCoordinate, width, height, life, colour);
-        scene->addItem(brick);
+
+        // Extension: create special bricks using decorators
+        if (thisBrick["SLD"] == "SLD" || thisBrick["INV"] == "INV" || thisBrick["TEL"] == "TEL") {
+            SlidingBrick *slidingBrick = NULL;
+            InvincibleBrick *invBrick = NULL;
+
+            if (thisBrick["SLD"] == "SLD") {
+                slidingBrick = new SlidingBrick(brick);
+            }
+
+            if (thisBrick["INV"] == "INV") {
+                if (slidingBrick != NULL)
+                    invBrick = new InvincibleBrick(slidingBrick);
+                else
+                    invBrick = new InvincibleBrick(brick);
+            }
+
+            if (invBrick != NULL)
+                scene->addItem(invBrick);
+            else if (slidingBrick != NULL)
+                scene->addItem(slidingBrick);
+
+        }
+        else {
+            scene->addItem(brick);
+        }
     }
-
-    InvincibleBrick *invincibleBrick = new InvincibleBrick(new Brick(300, 0, 70, 20, 5, "#FFFFFF"));
-
-    scene->addItem(invincibleBrick);
-
-    SlidingBrick *slidingInvincibleBrick = new SlidingBrick(new InvincibleBrick(new Brick(0, 0, 70, 20, 1, "#02bbf8")));
-    scene->addItem(slidingInvincibleBrick);
-
-    InvincibleBrick *invincibleSlidingBrick = new InvincibleBrick(new SlidingBrick(new Brick(300, 140, 70, 20, 1, "#8891af")));
-    scene->addItem(invincibleSlidingBrick);
-
-    scene->addItem(ball);
 
 }
 

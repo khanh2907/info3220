@@ -23,18 +23,23 @@ namespace Config{
         void validate();
         std::string removeSpace(std::string);
 
-        int getxCoordinate() { return atoi(ball["xCoordinate"].c_str()); }
-        int getyCoordinate() { return atoi(ball["yCoordinate"].c_str()); }
-        int getRadius() { return atoi(ball["radius"].c_str()); }
-        float getxVelocity() { return atof(ball["xVelocity"].c_str()); }
-        float getyVelocity() { return atof(ball["yVelocity"].c_str()); }
-        int getHeight() { return atoi(box["height"].c_str()); }
-        int getWidth() { return atoi(box["width"].c_str()); }
+        int getxCoordinate() { return xCoordinate; }
+        int getyCoordinate() { return yCoordinate; }
+        int getRadius() { return radius; }
+        float getxVelocity() { return xVelocity; }
+        float getyVelocity() { return yVelocity; }
+        int getHeight() { return height; }
+        int getWidth() { return width; }
         std::vector< std::map<std::string, std::string> > * getBricks() { return &bricks; }
 
     private:
-        std::map<std::string, std::string> box;
-        std::map<std::string, std::string> ball;
+        int xCoordinate;
+        int yCoordinate;
+        int radius;
+        float xVelocity;
+        float yVelocity;
+        int height;
+        int width;
         std::vector< std::map<std::string, std::string> > bricks;
     };
 }
