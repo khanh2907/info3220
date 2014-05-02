@@ -9,10 +9,16 @@ void Config::Config::readFile(){
         exit(0);
     }
     if (file.is_open()){
-        bool bricksInput = false;
+        std::string currentSet = "";
         while (std::getline(file, buffer)){
 
+            // ignore blank lines
             if (!buffer.length()) continue;
+
+            // ignore # comments
+            if (buffer[0] == '#') continue;
+
+            int indexOfColon = buffer.find(':');
 
             std::stringstream line(buffer);
             //reading the number input from .config
@@ -49,14 +55,24 @@ void Config::Config::readFile(){
                 }
             }
 
-            if (bricksInput) {
-                int indexOfColon = buffer.find(':');
-                std::string brickName = removeSpace(buffer.substr(0, indexOfColon));
-                std::string csv = removeSpace(buffer.substr(indexOfColon+1));
+            // make sure invalid lines are handled
+            if ((currentSet == "bricks" || currentSet == "ball" || currentSet == "box") && (buffer[0] != '[' && buffer[buffer.length()-1] != ']')){
+                if (indexOfColon == -1) {
+                    std::cout << "Invalid line detected in config file: " << buffer << std::endl;
+                    exit(0);
+                }
+            }
 
+            // get brick info here
+            if (currentSet == "bricks") {
+
+                std::string csv = removeSpace(buffer.substr(indexOfColon+1));
+                std::string brickName = removeSpace(buffer.substr(0, indexOfColon));
                 std::istringstream ss(csv);
                 std::string brickVal;
                 std::map<std::string, std::string> thisBrick;
+
+                thisBrick["name"] = brickName;
 
                 int valCount = 0;
 
@@ -71,10 +87,12 @@ void Config::Config::readFile(){
 
                     // special bricks
                     if (valCount > 5) {
-                        if (brickVal == "SLD" || brickVal == "INV" || brickVal == "TEL")
+                        if (brickVal == "SLD" || brickVal == "INV")
                             brickKey = brickVal;
-                        else
-                            continue;
+                        else {
+                            std::cout << brickVal <<" is not a valid brick modifier." << std::endl;
+                            exit(1);
+                        }
                     }
 
                     thisBrick[brickKey] = brickVal;
@@ -84,8 +102,10 @@ void Config::Config::readFile(){
                 bricks.push_back(thisBrick);
             }
 
-            if (buffer == "[BRICKS]")
-                bricksInput = true;
+            if (buffer[0] == '[' && buffer[buffer.length()-1] == ']') {
+                currentSet = buffer.substr(1, buffer.length()-2);
+                transform(currentSet.begin(), currentSet.end(), currentSet.begin(), ::tolower);
+            }
 
         }
         file.close();
@@ -103,6 +123,18 @@ std::string Config::Config::removeSpace(std::string s){
     return newStr;
 }
 
+bool Config::Config::isInt(std::string s)
+{
+
+   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
+
+   char * p ;
+   strtol(s.c_str(), &p, 10) ;
+
+   return (*p == 0) ;
+
+}
+
 void Config::Config::validate(){
     if(width < 0  ||
        height < 0 ||
@@ -110,12 +142,63 @@ void Config::Config::validate(){
        xCoordinate < 0 ||
        yCoordinate < 0){
         std::cout<<"Cannot have negative width, height, radius or xy coordinates"<<std::endl;
-        exit(0);
+        exit(1);
     }
 
     if(height < yCoordinate + 2*radius ||
        width < xCoordinate + 2*radius){
         std::cout<<"The ball doesn't fit within the box dimensons"<<std::endl;
-        exit(0);
+        exit(1);
+    }
+
+    // params to check type and validity
+    std::map<std::string, std::string> paramsToCheck;
+    paramsToCheck["xCoordinate"] = "int";
+    paramsToCheck["yCoordinate"] = "int";
+    paramsToCheck["width"] = "int";
+    paramsToCheck["height"] = "int";
+    paramsToCheck["life"] = "int";
+    paramsToCheck["colour"] = "colour";
+
+    for(auto iter = bricks.begin(); iter != bricks.end(); iter++) {
+        auto thisBrick = *(iter);
+        for (auto paramsIt = paramsToCheck.begin(); paramsIt != paramsToCheck.end(); paramsIt++) {
+            std::string param = paramsIt->first;
+            std::string type = paramsIt->second;
+
+            // check the ints in the brick
+            if (type == "int") {
+                if (!isInt(thisBrick[param])) {
+                    std::cout << thisBrick["name"]<< " " << param << " must be an int." << std::endl;
+                    exit(1);
+                }
+                else {
+                    int thisInt = atoi(thisBrick[param].c_str());
+
+                    if (thisInt < 0) {
+                        std::cout << thisBrick["name"]<< " "<< param << " must be positive." << std::endl;
+                        exit(1);
+                    }
+
+
+                }
+            }
+
+            // check the colour
+            if (type == "colour") {
+                std::string val = thisBrick[param];
+                if (val[0] != '#' || (val.length() != 4 && val.length() != 7)) {
+                    std::cout << thisBrick["name"]<< " "<< param << " must start with a # followed by 3 or 6 digit hex value representing a colour." << std::endl;
+                    exit(1);
+                }
+            }
+
+        }
+
+        // make sure life is > 0
+        if (atoi(thisBrick["life"].c_str()) <= 0) {
+            std::cout << thisBrick["name"]<< " life must be greater than 0." << std::endl;
+            exit(1);
+        }
     }
 }

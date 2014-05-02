@@ -20,8 +20,7 @@ SOURCES += main.cpp\
     brick.cpp \
     brickdecorator.cpp \
     invinciblebrick.cpp \
-    slidingbrick.cpp \
-    teleportingbrick.cpp
+    slidingbrick.cpp
 
 HEADERS  += dialog.h\
             config.h \
@@ -30,8 +29,7 @@ HEADERS  += dialog.h\
     brick.h \
     brickdecorator.h \
     invinciblebrick.h \
-    slidingbrick.h \
-    teleportingbrick.h
+    slidingbrick.h
 
 FORMS    += dialog.ui
 

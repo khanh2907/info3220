@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <map>
 #include <vector>
+#include <algorithm>
 
 namespace Config{
     //change this path depending on the location of your config file
@@ -22,6 +23,7 @@ namespace Config{
         void readFile();
         void validate();
         std::string removeSpace(std::string);
+        bool isInt(std::string s);
 
         int getxCoordinate() { return xCoordinate; }
         int getyCoordinate() { return yCoordinate; }
