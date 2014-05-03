@@ -220,7 +220,7 @@ void Config::Config::generateBricks() {
 
     srand(time(NULL));
     int minHeight = 5;
-    int maxHeight = 20;
+    int maxHeight = 30;
     int minWidth = 40;
     int maxWidth = 70;
     int maxLife = 15;
