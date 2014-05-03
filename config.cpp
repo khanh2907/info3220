@@ -53,6 +53,10 @@ void Config::Config::readFile(){
                     std::string str = buffer.substr(10,buffer.length());
                     yVelocity = atof(str.c_str());
                 }
+                else if(buffer2 == "brickGen"){
+                    std::string str = buffer.substr(9,buffer.length());
+                    brickGen = (str == "on");
+                }
             }
 
             // make sure invalid lines are handled
@@ -61,6 +65,13 @@ void Config::Config::readFile(){
                     std::cout << "Invalid line detected in config file: " << buffer << std::endl;
                     exit(0);
                 }
+            }
+
+            // determine the current set
+            if (buffer[0] == '[' && buffer[buffer.length()-1] == ']') {
+                currentSet = buffer.substr(1, buffer.length()-2);
+                transform(currentSet.begin(), currentSet.end(), currentSet.begin(), ::tolower);
+                continue;
             }
 
             // get brick info here
@@ -102,13 +113,11 @@ void Config::Config::readFile(){
                 bricks.push_back(thisBrick);
             }
 
-            if (buffer[0] == '[' && buffer[buffer.length()-1] == ']') {
-                currentSet = buffer.substr(1, buffer.length()-2);
-                transform(currentSet.begin(), currentSet.end(), currentSet.begin(), ::tolower);
-            }
-
         }
         file.close();
+    }
+    if (brickGen) {
+        generateBricks();
     }
     validate();
 }
@@ -170,6 +179,7 @@ void Config::Config::validate(){
             if (type == "int") {
                 if (!isInt(thisBrick[param])) {
                     std::cout << thisBrick["name"]<< " " << param << " must be an int." << std::endl;
+                    std::cout << thisBrick[param] << std::endl;
                     exit(1);
                 }
                 else {
@@ -179,16 +189,15 @@ void Config::Config::validate(){
                         std::cout << thisBrick["name"]<< " "<< param << " must be positive." << std::endl;
                         exit(1);
                     }
-
-
                 }
             }
 
             // check the colour
             if (type == "colour") {
                 std::string val = thisBrick[param];
-                if (val[0] != '#' || (val.length() != 4 && val.length() != 7)) {
-                    std::cout << thisBrick["name"]<< " "<< param << " must start with a # followed by 3 or 6 digit hex value representing a colour." << std::endl;
+                if (val[0] != '#') {
+                    std::cout << thisBrick["name"]<< " "<< param << " must start with a #" << std::endl;
+                    std::cout << thisBrick[param] << std::endl;
                     exit(1);
                 }
             }
@@ -202,3 +211,80 @@ void Config::Config::validate(){
         }
     }
 }
+
+// Running this function will clear any given bricks from the config file.
+// It will proceed to create a random number of bricks with random attributes.
+void Config::Config::generateBricks() {
+
+    bricks.clear();
+
+    srand(time(NULL));
+    int minHeight = 5;
+    int maxHeight = 20;
+    int minWidth = 40;
+    int maxWidth = 70;
+    int maxLife = 15;
+
+    int numOfBricks = rand()%100 + 10;
+
+    for (int i=0; i< numOfBricks; i++) {
+        std::map<std::string, std::string> thisBrick;
+        int rngHeight = rand()%maxHeight + minHeight;
+        int rngWidth = rand()%maxWidth + minWidth;
+
+        int rngX = rand()%width;
+        int rngY = rand()%height;
+
+        int rngLife = rand()%maxLife + 1;
+
+        // generate a random hex value for colour
+        int x = rand() & 0xff;
+        x |= (rand() & 0xff) << 8;
+        x |= (rand() & 0xff) << 16;
+        std::stringstream stream;
+        stream << "#" << std::hex << x;
+        std::string rngColour( stream.str() );
+
+        // name of brick
+        stream.str(std::string());
+        stream << "brick" << i;
+        std::string brickName = stream.str();
+
+        // small chance of special being special
+        int specialChance = rand()%20;
+
+        if (specialChance >= 16) {
+            int invChance = rand()%2;
+            int sldChance = rand()%2;
+
+            if (invChance) {
+                thisBrick["INV"] = "INV";
+            }
+
+            if (sldChance) {
+                thisBrick["SLD"] = "SLD";
+            }
+        }
+
+        thisBrick["xCoordinate"] = intToString(rngX);
+        thisBrick["yCoordinate"] = intToString(rngY);
+        thisBrick["width"] = intToString(rngWidth);
+        thisBrick["height"] = intToString(rngHeight);
+        thisBrick["life"] = intToString(rngLife);
+        thisBrick["colour"] = rngColour;
+        thisBrick["name"] = brickName;
+
+        bricks.push_back(thisBrick);
+
+    }
+
+
+}
+
+std::string Config::Config::intToString(int number) {
+    std::stringstream stream;
+    stream << number;
+    return stream.str();
+}
+
+

@@ -24,6 +24,8 @@ namespace Config{
         void validate();
         std::string removeSpace(std::string);
         bool isInt(std::string s);
+        void generateBricks();
+        std::string intToString(int number);
 
         int getxCoordinate() { return xCoordinate; }
         int getyCoordinate() { return yCoordinate; }
@@ -43,6 +45,7 @@ namespace Config{
         int height;
         int width;
         std::vector< std::map<std::string, std::string> > bricks;
+        bool brickGen;
     };
 }
 #endif // CONFIG_H

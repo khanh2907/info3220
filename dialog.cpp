@@ -50,8 +50,13 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
                     overlayValid = false;
                 }
             }
-
         }
+
+        if (xCoordinate + width > config->getWidth())
+            continue;
+
+        if (yCoordinate + height > config->getHeight())
+            continue;
 
         if (!overlayValid)
             continue;
