@@ -44,12 +44,22 @@ Dialog::Dialog(Config::Config *config, QWidget *parent) :
             qreal otherBrickBottom = otherBrick->pos().y() + otherBrick->getHeight();
 
             if ((xCoordinate >= otherBrickLeft && xCoordinate <= otherBrickRight) ||
-                    (xCoordinate + width >= otherBrickLeft && xCoordinate + width <= otherBrickRight)) {
+                    (xCoordinate + width >= otherBrickLeft && xCoordinate + width <= otherBrickRight) ||
+                    (otherBrickLeft >= xCoordinate && otherBrickLeft <= xCoordinate + width) ||
+                    (otherBrickRight >= xCoordinate && otherBrickRight <= xCoordinate + width)) {
                 if ((yCoordinate >= otherBrickTop && yCoordinate <= otherBrickBottom) ||
                         (yCoordinate + height >= otherBrickTop && yCoordinate + height <= otherBrickBottom)) {
                     overlayValid = false;
                 }
+                if ((otherBrickTop >= yCoordinate && otherBrickTop <= yCoordinate + height) ||
+                        (otherBrickBottom >= yCoordinate && otherBrickBottom <= yCoordinate + height)) {
+                    overlayValid = false;
+                }
             }
+
+
+
+
         }
 
         if (xCoordinate + width > config->getWidth())
